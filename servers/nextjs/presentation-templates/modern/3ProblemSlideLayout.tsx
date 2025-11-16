@@ -115,7 +115,7 @@ const ProblemStatementSlideLayout: React.FC<
       />
 
       <div
-        className="w-full rounded-sm max-w-[1280px] shadow-lg max-h-[720px] aspect-video bg-purple-600 relative z-20 mx-auto overflow-hidden text-white"
+        className="w-full rounded-sm max-w-[1280px] shadow-lg max-h-[720px] aspect-video bg-[#a80000] relative z-20 mx-auto overflow-hidden text-white"
         style={{
           fontFamily: "Montserrat, sans-serif",
         }}
@@ -160,10 +160,10 @@ const ProblemStatementSlideLayout: React.FC<
                     )}
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-1">
+                    <h3 className="text-xl font-semibold text-[#a80000] mb-1">
                       {category.title}
                     </h3>
-                    <p className="text-sm text-purple-100 leading-relaxed max-w-md">
+                    <p className="text-sm text-gray-800 leading-relaxed max-w-md">
                       {category.description}
                     </p>
                   </div>

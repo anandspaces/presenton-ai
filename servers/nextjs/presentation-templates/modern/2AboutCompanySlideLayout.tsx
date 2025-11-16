@@ -59,7 +59,7 @@ const AboutCompanySlideLayout: React.FC<AboutCompanySlideLayoutProps> = ({
         }}
       >
         {/* Header */}
-        <div className="absolute top-8 left-10 right-10 flex justify-between items-center text-[#1ed937] text-sm font-semibold">
+        <div className="absolute top-8 left-10 right-10 flex justify-between items-center text-[#a80000] text-sm font-semibold">
           <span>{slideData?.companyName}</span>
           <span>{slideData?.date}</span>
         </div>
@@ -123,13 +123,13 @@ const AboutCompanySlideLayout: React.FC<AboutCompanySlideLayoutProps> = ({
           {/* Right side - Content */}
           <div className="flex-1 pl-16 flex flex-col justify-center">
             {slideData?.title && (
-              <h2 className="text-6xl font-bold text-purple-600 mb-12 leading-tight">
+              <h2 className="text-6xl font-bold text-[#a80000] mb-12 leading-tight">
                 {slideData?.title}
               </h2>
             )}
 
             {slideData?.content && (
-              <div className="text-lg text-purple-600 leading-relaxed font-normal max-w-lg">
+              <div className="text-lg text-gray-900 leading-relaxed font-normal max-w-lg">
                 {slideData?.content}
               </div>
             )}
