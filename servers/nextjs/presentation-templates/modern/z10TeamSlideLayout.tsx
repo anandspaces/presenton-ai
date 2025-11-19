@@ -171,7 +171,7 @@ const ModernTeamSlideLayout: React.FC<ModernTeamSlideLayoutProps> = ({
                     href={member.linkedIn}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center text-xs text-[#a80000] hover:text-[#a80000] transition-colors duration-200 mt-1"
+                    className="inline-flex items-center text-xs text-[#a80000] hover:text-[#8c0101] transition-colors duration-200 mt-1"
                   >
                     <svg
                       className="w-4 h-4 mr-1"

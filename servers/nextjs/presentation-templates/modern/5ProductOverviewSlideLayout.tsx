@@ -147,12 +147,12 @@ const ProductOverviewSlideLayout: React.FC<ProductOverviewSlideLayoutProps> = ({
                     style={{ height: `${TEXT_SECTION_HEIGHT + 32}px` }}
                   >
                     <h2
-                      className={`text-xl font-semibold mb-3 ${products[0].isBlueBackground ? "text-white" : "text-[#a80000]"}`}
+                      className={`text-xl font-semibold mb-3 ${products[0].isBlueBackground ? "text-[#7d0101]" : "text-[#a80000]"}`}
                     >
                       {products[0].title}
                     </h2>
                     <p
-                      className={`text-sm leading-relaxed ${products[0].isBlueBackground ? "text-white" : "text-gray-800"}`}
+                      className={`text-sm leading-relaxed ${products[0].isBlueBackground ? "text-gray-900" : "text-gray-800"}`}
                     >
                       {products[0].description}
                     </p>
@@ -202,12 +202,12 @@ const ProductOverviewSlideLayout: React.FC<ProductOverviewSlideLayoutProps> = ({
                     style={{ height: `${TEXT_SECTION_HEIGHT + 32}px` }}
                   >
                     <h2
-                      className={`text-xl font-semibold mb-3 ${products[1].isBlueBackground ? "text-white" : "text-[#a80000]"}`}
+                      className={`text-xl font-semibold mb-3 ${products[1].isBlueBackground ? "text-[#7d0101]" : "text-[#a80000]"}`}
                     >
                       {products[1].title}
                     </h2>
                     <p
-                      className={`text-sm leading-relaxed ${products[1].isBlueBackground ? "text-white" : "text-gray-800"}`}
+                      className={`text-sm leading-relaxed ${products[1].isBlueBackground ? "text-gray-900" : "text-gray-800"}`}
                     >
                       {products[1].description}
                     </p>

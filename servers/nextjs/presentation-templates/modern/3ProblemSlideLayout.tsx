@@ -147,7 +147,7 @@ const ProblemStatementSlideLayout: React.FC<
               {problemCategories.map((category, index) => (
                 <div
                   key={index}
-                  className="flex items-start gap-5 bg-white bg-opacity-5 rounded-lg p-5"
+                  className="flex items-start gap-5 bg-white rounded-lg p-5"
                 >
                   <div className="flex-shrink-0">
                     {category.icon?.__icon_url__ && (

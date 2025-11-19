@@ -161,7 +161,7 @@ const SolutionSlideLayout: React.FC<SolutionSlideLayoutProps> = ({
         </div>
 
         {/* Bottom Border */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-purple-600"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#a80000]"></div>
       </div>
     </>
   );
