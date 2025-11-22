@@ -6,6 +6,7 @@ from enums.verbosity import Verbosity
 
 
 class GeneratePresentationRequest(BaseModel):
+    user_id: str
     content: str = Field(..., description="The content for generating the presentation")
     slides_markdown: Optional[List[str]] = Field(
         default=None, description="The markdown for the slides"

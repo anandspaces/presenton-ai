@@ -27,6 +27,16 @@ async def generate_image(
     if not isinstance(image, ImageAsset):
         return image
 
+    # TODO: CLOUD_STORAGE_INTEGRATION
+    # AI generated images are saved locally in image.path
+    # 1. Upload generated image to cloud storage bucket
+    # 2. Update image.path with cloud URL before saving to database
+    # Example:
+    #   local_path = image.path
+    #   cloud_url = await upload_to_storage_bucket(local_path, "images")
+    #   os.remove(local_path)
+    #   image.path = cloud_url
+
     sql_session.add(image)
     await sql_session.commit()
 
@@ -60,6 +70,15 @@ async def upload_image(
 
         with open(image_path, "wb") as f:
             f.write(await file.read())
+
+        # TODO: CLOUD_STORAGE_INTEGRATION
+        # User uploaded images are saved locally
+        # 1. Upload file to cloud storage bucket instead
+        # 2. Store cloud URL in ImageAsset.path instead of local path
+        # Example:
+        #   cloud_url = await upload_to_storage_bucket(image_path, "images")
+        #   os.remove(image_path)
+        #   image_asset = ImageAsset(path=cloud_url, is_uploaded=True)
 
         image_asset = ImageAsset(path=image_path, is_uploaded=True)
 

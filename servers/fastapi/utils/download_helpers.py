@@ -48,6 +48,17 @@ async def download_file(
                         async for chunk in response.content.iter_chunked(8192):
                             file.write(chunk)
                     print(f"File downloaded successfully: {save_path}")
+                    
+                    # TODO: CLOUD_STORAGE_INTEGRATION
+                    # Images downloaded from Pexels/Pixabay are saved locally
+                    # 1. Upload downloaded file to cloud storage bucket
+                    # 2. Return cloud storage URL instead of local path
+                    # 3. Delete local file after upload
+                    # Example:
+                    #   cloud_url = await upload_to_storage_bucket(save_path, "images")
+                    #   os.remove(save_path)
+                    #   return cloud_url
+                    
                     return save_path
                 else:
                     print(f"Failed to download file. HTTP status: {response.status}")

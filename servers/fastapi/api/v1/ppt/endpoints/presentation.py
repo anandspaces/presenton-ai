@@ -71,8 +71,12 @@ import uuid
 PRESENTATION_ROUTER = APIRouter(prefix="/presentation", tags=["Presentation"])
 
 
-@PRESENTATION_ROUTER.get("/all", response_model=List[PresentationWithSlides])
-async def get_all_presentations(sql_session: AsyncSession = Depends(get_async_session)):
+@PRESENTATION_ROUTER.get("/all/{user_id}", response_model=List[PresentationWithSlides])
+async def get_all_presentations_by_user(
+    user_id: str,
+    sql_session: AsyncSession = Depends(get_async_session)
+):
+    """Get all presentations for a specific user."""
     presentations_with_slides = []
 
     query = (
@@ -81,6 +85,7 @@ async def get_all_presentations(sql_session: AsyncSession = Depends(get_async_se
             SlideModel,
             (SlideModel.presentation == PresentationModel.id) & (SlideModel.index == 0),
         )
+        .where(PresentationModel.user_id == user_id)
         .order_by(PresentationModel.created_at.desc())
     )
 
@@ -94,7 +99,6 @@ async def get_all_presentations(sql_session: AsyncSession = Depends(get_async_se
         for presentation, first_slide in rows
     ]
     return presentations_with_slides
-
 
 @PRESENTATION_ROUTER.get("/{id}", response_model=PresentationWithSlides)
 async def get_presentation(
@@ -128,6 +132,7 @@ async def delete_presentation(
 
 @PRESENTATION_ROUTER.post("/create", response_model=PresentationModel)
 async def create_presentation(
+    user_id: Annotated[str, Body()],
     content: Annotated[str, Body()],
     n_slides: Annotated[int, Body()],
     language: Annotated[str, Body()],
@@ -151,6 +156,7 @@ async def create_presentation(
 
     presentation = PresentationModel(
         id=presentation_id,
+        user_id=user_id,
         content=content,
         n_slides=n_slides,
         language=language,

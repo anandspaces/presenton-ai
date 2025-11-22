@@ -16,7 +16,11 @@ from utils.image_provider import (
     is_dalle3_selected,
 )
 import uuid
+from dotenv import load_dotenv
+import os
 
+load_dotenv()  # loads the .env file
+GEMINI_IMAGE_MODEL = os.getenv("IMAGE_PROVIDER_MODEL")
 
 class ImageGenerationService:
 
@@ -96,7 +100,7 @@ class ImageGenerationService:
         client = genai.Client()
         response = await asyncio.to_thread(
             client.models.generate_content,
-            model="gemini-2.5-flash-image-preview",
+            model=GEMINI_IMAGE_MODEL,
             contents=[prompt],
             config=GenerateContentConfig(response_modalities=["TEXT", "IMAGE"]),
         )

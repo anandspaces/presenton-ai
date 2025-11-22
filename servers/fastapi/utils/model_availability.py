@@ -55,7 +55,10 @@ async def check_llm_and_image_provider_api_or_model_availability():
             google_model = get_google_model_env()
             if google_model:
                 available_models = await list_available_google_models(google_api_key)
-                if google_model not in available_models:
+                # Google API returns models with "models/" prefix, so check both formats
+                model_with_prefix = f"models/{google_model}" if not google_model.startswith("models/") else google_model
+                model_without_prefix = google_model.replace("models/", "") if google_model.startswith("models/") else google_model
+                if google_model not in available_models and model_with_prefix not in available_models:
                     print("-" * 50)
                     print("Available models: ", available_models)
                     raise Exception(f"Model {google_model} is not available")
@@ -119,12 +122,12 @@ async def check_llm_and_image_provider_api_or_model_availability():
             if not pixabay_api_key:
                 raise Exception("PIXABAY_API_KEY must be provided")
 
-        elif selected_image_provider == ImageProvider.GEMINI_FLASH:
-            google_api_key = get_google_api_key_env()
-            if not google_api_key:
-                raise Exception("GOOGLE_API_KEY must be provided")
-
         elif selected_image_provider == ImageProvider.DALLE3:
             openai_api_key = get_openai_api_key_env()
             if not openai_api_key:
                 raise Exception("OPENAI_API_KEY must be provided")
+
+        elif selected_image_provider == ImageProvider.GEMINI_FLASH:
+            google_api_key = get_google_api_key_env()
+            if not google_api_key:
+                raise Exception("GOOGLE_API_KEY must be provided")
