@@ -15,8 +15,8 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const fastapiDir = join(__dirname, "servers/fastapi");
-const nextjsDir = join(__dirname, "servers/nextjs");
+const fastapiDir = join(__dirname, "fastapi");
+const nextjsDir = join(__dirname, "nextjs");
 
 const args = process.argv.slice(2);
 const hasDevArg = args.includes("--dev") || args.includes("-d");

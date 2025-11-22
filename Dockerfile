@@ -30,22 +30,22 @@ RUN pip install --no-cache-dir aiohttp aiomysql aiosqlite asyncpg fastapi[standa
 RUN pip install --no-cache-dir docling --extra-index-url https://download.pytorch.org/whl/cpu
 
 # Install dependencies for Next.js
-WORKDIR /app/servers/nextjs
-COPY servers/nextjs/package.json servers/nextjs/package-lock.json ./
+WORKDIR /app/nextjs
+COPY nextjs/package.json nextjs/package-lock.json ./
 RUN npm install
 
 
 # Copy Next.js app
-COPY servers/nextjs/ /app/servers/nextjs/
+COPY nextjs/ /app/nextjs/
 
 # Build the Next.js app
-WORKDIR /app/servers/nextjs
+WORKDIR /app/nextjs
 RUN npm run build
 
 WORKDIR /app
 
 # Copy FastAPI
-COPY servers/fastapi/ ./servers/fastapi/
+COPY fastapi/ ./fastapi/
 COPY start.js LICENSE NOTICE ./
 
 # Copy nginx configuration

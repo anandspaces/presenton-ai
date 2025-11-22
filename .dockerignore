@@ -1,11 +1,11 @@
 .git
 .gitignore
 
-servers/fastapi/tmp
-servers/fastapi/debug
-servers/fastapi/.venv
+fastapi/tmp
+fastapi/debug
+fastapi/.venv
 
-servers/nextjs/node_modules
-servers/nextjs/.next
+nextjs/node_modules
+nextjs/.next
 
 container.db
