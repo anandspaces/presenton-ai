@@ -1,6 +1,6 @@
 FROM python:3.11-slim-bookworm
 
-# Install Node.js and npm
+# Install Node.js, npm, and all Chrome/Puppeteer dependencies
 RUN apt-get update && apt-get install -y \
     nginx \
     curl \
@@ -26,7 +26,7 @@ ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 # Install dependencies for FastAPI
 RUN pip install --no-cache-dir aiohttp aiomysql aiosqlite asyncpg fastapi[standard] \
     pathvalidate pdfplumber chromadb sqlmodel \
-    anthropic google-genai openai fastmcp dirtyjson
+    anthropic google-genai openai fastmcp dirtyjson python-dotenv
 RUN pip install --no-cache-dir docling --extra-index-url https://download.pytorch.org/whl/cpu
 
 # Install dependencies for Next.js
