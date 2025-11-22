@@ -10,13 +10,13 @@
  */
 
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { clearOutlines, setPresentationId } from "@/store/slices/presentationGeneration";
 import { ConfigurationSelects } from "./ConfigurationSelects";
 import { PromptInput } from "./PromptInput";
-import {  LanguageType, PresentationConfig, ToneType, VerbosityType } from "../type";
+import { LanguageType, PresentationConfig, ToneType, VerbosityType } from "../type";
 import SupportingDoc from "./SupportingDoc";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
@@ -36,7 +36,13 @@ interface LoadingState {
   extra_info?: string;
 }
 
-const UploadPage = () => {
+// Props interface - both are optional
+interface UploadPageProps {
+  initialPrompt?: string;
+  userId?: string;
+}
+
+const UploadPage = ({ initialPrompt = "", userId }: UploadPageProps = {}) => {
   const router = useRouter();
   const pathname = usePathname();
   const dispatch = useDispatch();
@@ -46,7 +52,7 @@ const UploadPage = () => {
   const [config, setConfig] = useState<PresentationConfig>({
     slides: "8",
     language: LanguageType.English,
-    prompt: "",
+    prompt: initialPrompt,
     tone: ToneType.Default,
     verbosity: VerbosityType.Standard,
     instructions: "",
@@ -62,6 +68,15 @@ const UploadPage = () => {
     showProgress: false,
     extra_info: "",
   });
+
+  // Effect to track userId on mount if provided
+  useEffect(() => {
+    if (userId) {
+      console.log("User ID from URL:", userId);
+      // Optionally track the userId with analytics
+      // trackEvent(MixpanelEvent.Upload_With_UserId, { userId });
+    }
+  }, [userId]);
 
   /**
    * Updates the presentation configuration
@@ -86,6 +101,13 @@ const UploadPage = () => {
       toast.error("No Prompt or Document Provided");
       return false;
     }
+    
+    // Check userId availability
+    if (!userId) {
+      toast.error("User session not initialized. Please refresh the page.");
+      return false;
+    }
+    
     return true;
   };
 
@@ -135,11 +157,13 @@ const UploadPage = () => {
       promises.push(PresentationGenerationApi.decomposeDocuments(documents));
     }
     const responses = await Promise.all(promises);
-    dispatch(setPptGenUploadState({
-      config,
-      files: responses,
-    }));
-    dispatch(clearOutlines())
+    dispatch(
+      setPptGenUploadState({
+        config,
+        files: responses,
+      })
+    );
+    dispatch(clearOutlines());
     trackEvent(MixpanelEvent.Navigation, { from: pathname, to: "/documents-preview" });
     router.push("/documents-preview");
   };
@@ -148,6 +172,14 @@ const UploadPage = () => {
    * Handles direct presentation generation without documents
    */
   const handleDirectPresentationGeneration = async () => {
+    // Use userId instead of calling useUserId again
+    if (!userId) {
+      toast.error("User session not initialized");
+      return;
+    }
+    
+    console.log("Generating presentation for user:", userId);
+    
     setLoadingState({
       isLoading: true,
       message: "Generating outlines...",
@@ -158,6 +190,7 @@ const UploadPage = () => {
     // Use the first available layout group for direct generation
     trackEvent(MixpanelEvent.Upload_Create_Presentation_API_Call);
     const createResponse = await PresentationGenerationApi.createPresentation({
+      user_id: userId,
       content: config?.prompt ?? "",
       n_slides: config?.slides ? parseInt(config.slides) : null,
       file_paths: [],
@@ -170,9 +203,8 @@ const UploadPage = () => {
       web_search: !!config?.webSearch,
     });
 
-
     dispatch(setPresentationId(createResponse.id));
-    dispatch(clearOutlines())
+    dispatch(clearOutlines());
     trackEvent(MixpanelEvent.Navigation, { from: pathname, to: "/outline" });
     router.push("/outline");
   };
@@ -202,29 +234,34 @@ const UploadPage = () => {
         duration={loadingState.duration}
         extra_info={loadingState.extra_info}
       />
-      <div className="flex flex-col gap-4 md:items-center md:flex-row justify-between py-4">
+
+      {/* Side by side layout for PromptInput and SupportingDoc */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+        <div className="relative col-span-2 mx-2">
+          <PromptInput
+            value={config.prompt}
+            onChange={(value) => handleConfigChange("prompt", value)}
+            data-testid="prompt-input"
+          />
+          <div className="flex flex-col gap-2 md:items-center md:flex-row justify-start">
         <p></p>
-        <ConfigurationSelects
-          config={config}
-          onConfigChange={handleConfigChange}
-        />
+        <div className="mb-4">
+
+        <ConfigurationSelects config={config} onConfigChange={handleConfigChange} />
+        </div>
+      </div>
+        </div>
+        <div className="relative col-span-1 mx-2">
+          <SupportingDoc files={[...files]} onFilesChange={setFiles} data-testid="file-upload-input" />
+        </div>
       </div>
 
-      <div className="relative">
-        <PromptInput
-          value={config.prompt}
-          onChange={(value) => handleConfigChange("prompt", value)}
-          data-testid="prompt-input"
-        />
-      </div>
-      <SupportingDoc
-        files={[...files]}
-        onFilesChange={setFiles}
-        data-testid="file-upload-input"
-      />
+      
+
       <Button
         onClick={handleGeneratePresentation}
-        className="w-full rounded-[32px] flex items-center justify-center py-6 bg-[#5141e5] text-white font-instrument_sans font-semibold text-xl hover:bg-[#5141e5]/80 transition-colors duration-300"
+        disabled={!userId}
+        className="w-full rounded-[32px] flex items-center justify-center py-6 bg-purple-800 text-white font-instrument_sans font-semibold text-xl hover:bg-purple-700 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         data-testid="next-button"
       >
         <span>Next</span>

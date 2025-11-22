@@ -140,7 +140,7 @@ const SlideContent = ({ slide, index, presentationId }: SlideContentProps) => {
         className=" w-full max-w-[1280px] main-slide flex items-center max-md:mb-4 justify-center relative"
       >
         {isStreaming && (
-          <Loader2 className="w-8 h-8 absolute right-2 top-2 z-30 text-blue-800 animate-spin" />
+          <Loader2 className="w-8 h-8 absolute right-2 top-2 z-30 text-purple-800 animate-spin" />
         )}
         <div
           data-layout={slide.layout}
@@ -165,7 +165,7 @@ const SlideContent = ({ slide, index, presentationId }: SlideContentProps) => {
                       trackEvent(MixpanelEvent.Slide_Add_New_Slide_Button_Clicked, { pathname });
                       setShowNewSlideSelection(true);
                     }}
-                    className="  bg-white shadow-md w-[80px] py-2 border hover:border-[#5141e5] duration-300  flex items-center justify-center rounded-lg cursor-pointer mx-auto"
+                    className="  bg-white shadow-md w-[80px] py-2 border hover:border-[#7e22ce] duration-300  flex items-center justify-center rounded-lg cursor-pointer mx-auto"
                   >
                     <PlusIcon className="text-gray-500 text-base cursor-pointer" />
                   </div>
@@ -201,7 +201,7 @@ const SlideContent = ({ slide, index, presentationId }: SlideContentProps) => {
                 <PopoverTrigger>
                   <ToolTip content="Update slide using prompt">
                     <div
-                      className={`p-2 group-hover:scale-105 rounded-lg bg-[#5141e5] hover:shadow-md transition-all duration-300 cursor-pointer shadow-md `}
+                      className={`p-2 group-hover:scale-105 rounded-lg bg-[#7e22ce] hover:shadow-md transition-all duration-300 cursor-pointer shadow-md `}
                     >
                       <WandSparkles className="w-4 sm:w-5 h-4 sm:h-5 text-white" />
                     </div>
@@ -238,7 +238,7 @@ const SlideContent = ({ slide, index, presentationId }: SlideContentProps) => {
                       <button
                         disabled={isUpdating}
                         type="submit"
-                        className={`bg-gradient-to-r from-[#9034EA] to-[#5146E5] rounded-[32px] px-4 py-2 text-white flex items-center justify-end gap-2 ml-auto ${isUpdating ? "opacity-70 cursor-not-allowed" : ""
+                        className={`bg-gradient-to-r from-[#9034EA] to-[#7e22ce] rounded-[32px] px-4 py-2 text-white flex items-center justify-end gap-2 ml-auto ${isUpdating ? "opacity-70 cursor-not-allowed" : ""
                           }`}
                         onClick={() => {
                           trackEvent(MixpanelEvent.Slide_Update_From_Prompt_Button_Clicked, { pathname });

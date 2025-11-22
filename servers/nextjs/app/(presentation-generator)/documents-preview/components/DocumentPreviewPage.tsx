@@ -29,6 +29,7 @@ import { ChevronRight, PanelRightOpen, X } from "lucide-react";
 import ToolTip from "@/components/ToolTip";
 import Header from "@/app/(presentation-generator)/dashboard/components/Header";
 import { trackEvent, MixpanelEvent } from "@/utils/mixpanel";
+import { getUserIdCookie } from "@/app/hooks/useUserId";
 
 // Types
 interface LoadingState {
@@ -53,7 +54,10 @@ const DocumentsPreviewPage: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
+  
+  // Get userId from hook with refresh capability
+  const userId = getUserIdCookie()
+  
   // Redux state
   const { config, files } = useSelector(
     (state: RootState) => state.pptGenUpload
@@ -62,9 +66,7 @@ const DocumentsPreviewPage: React.FC = () => {
   // Local state
   const [textContents, setTextContents] = useState<TextContents>({});
   const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
-  const [downloadingDocuments, setDownloadingDocuments] = useState<string[]>(
-    []
-  );
+  const [downloadingDocuments, setDownloadingDocuments] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(true);
   const [showLoading, setShowLoading] = useState<LoadingState>({
     message: "",
@@ -135,6 +137,23 @@ const DocumentsPreviewPage: React.FC = () => {
   };
 
   const handleCreatePresentation = async () => {
+    // Check userId and refresh if needed
+    if (!userId) {
+      console.log("No userId found, attempting to refresh from cookies...");
+      
+      // Wait a brief moment for state update
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      if (!userId) {
+        toast.error("User session not initialized", {
+          description: "Please return to the upload page to start a new session."
+        });
+        return;
+      }
+    }
+    
+    console.log("Generating presentation for user:", userId);
+    
     try {
       setShowLoading({
         message: "Generating presentation outline...",
@@ -146,32 +165,33 @@ const DocumentsPreviewPage: React.FC = () => {
       const documentPaths = fileItems.map(
         (fileItem: FileItem) => fileItem.file_path
       );
+      
       trackEvent(MixpanelEvent.DocumentsPreview_Create_Presentation_API_Call);
-       const createResponse = await PresentationGenerationApi.createPresentation(
-        {
-          content: config?.prompt ?? "",
-          n_slides: config?.slides ? parseInt(config.slides) : null,
-          file_paths: documentPaths,
-          language: config?.language ?? "",
-          tone: config?.tone,
-          verbosity: config?.verbosity,
-          instructions: config?.instructions || null,
-          include_table_of_contents: !!config?.includeTableOfContents,
-          include_title_slide: !!config?.includeTitleSlide,
-          web_search: !!config?.webSearch,
-        }
-      );
+      
+      const createResponse = await PresentationGenerationApi.createPresentation({
+        user_id: userId,
+        content: config?.prompt ?? "",
+        n_slides: config?.slides ? parseInt(config.slides) : null,
+        file_paths: documentPaths,
+        language: config?.language ?? "",
+        tone: config?.tone,
+        verbosity: config?.verbosity,
+        instructions: config?.instructions || null,
+        include_table_of_contents: !!config?.includeTableOfContents,
+        include_title_slide: !!config?.includeTitleSlide,
+        web_search: !!config?.webSearch,
+      });
 
       dispatch(setPresentationId(createResponse.id));
       trackEvent(MixpanelEvent.Navigation, { from: pathname, to: "/outline" });
       router.replace("/outline");
     } catch (error: any) {
-      console.error("Error in radar presentation creation:", error);
+      console.error("Error in presentation creation:", error);
       toast.error("Error", {
-        description: error.message || "Error in radar presentation creation.",
+        description: error.message || "Failed to create presentation. Please try again."
       });
       setShowLoading({
-        message: "Error in radar presentation creation.",
+        message: "Error in presentation creation.",
         show: true,
         duration: 10,
         progress: false,
@@ -241,7 +261,7 @@ const DocumentsPreviewPage: React.FC = () => {
                   key={key}
                   onClick={() => updateSelectedDocument(key)}
                   className={`${
-                    selectedDocument === key ? "border border-blue-500" : ""
+                    selectedDocument === key ? "border border-purple-500" : ""
                   } flex p-2 rounded-sm gap-2 items-center cursor-pointer`}
                 >
                   <img
@@ -276,7 +296,7 @@ const DocumentsPreviewPage: React.FC = () => {
             <ToolTip content="Open Panel">
               <Button
                 onClick={() => setIsOpen(true)}
-                className="bg-[#5146E5] text-white p-3 shadow-lg"
+                className="bg-[#7e22ce] text-white p-3 shadow-lg"
               >
                 <PanelRightOpen className="text-white" size={20} />
               </Button>
@@ -293,7 +313,7 @@ const DocumentsPreviewPage: React.FC = () => {
         <div className="fixed bottom-5 right-5">
           <Button
             onClick={handleCreatePresentation}
-            className="flex items-center gap-2 px-8 py-6 rounded-sm text-md bg-[#5146E5] hover:bg-[#5146E5]/90"
+            className="flex items-center gap-2 px-8 py-6 rounded-sm text-md bg-[#7e22ce] hover:bg-[#7e22ce]/90"
           >
             <span className="text-white font-semibold">Next</span>
             <ChevronRight />

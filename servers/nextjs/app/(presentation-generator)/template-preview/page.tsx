@@ -109,7 +109,7 @@ const LayoutPreview = () => {
           <div className="max-w-7xl mx-auto px-6 py-6 w-full">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold text-gray-900">Custom AI Templates</h2>
-              <button className="text-sm text-gray-800 hover:text-blue-600 transition-colors flex items-center gap-2 group" onClick={() => {
+              <button className="text-sm text-gray-800 hover:text-purple-600 transition-colors flex items-center gap-2 group" onClick={() => {
                 trackEvent(MixpanelEvent.Navigation, { from: pathname, to: `/custom-template` });
                 router.push(`/custom-template`)
               }}>
@@ -135,20 +135,20 @@ const LayoutPreview = () => {
                     >
                       <div className="p-6">
                         <div className="flex items-center justify-between mb-3">
-                          <h3 className="text-lg font-semibold text-gray-900 capitalize group-hover:text-blue-600 transition-colors">
+                          <h3 className="text-lg font-semibold text-gray-900 capitalize group-hover:text-purple-600 transition-colors">
                             {displayName}
                           </h3>
 
                           <div className="flex items-center gap-2">
-                            <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                            <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">
                               {template.layouts.length}
                             </span>
-                            <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                            <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-purple-600 transition-colors" />
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
                           <p className="text-xs text-gray-600  ">ID: {template.templateID}</p>
-                          <Copy className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" onClick={() => {
+                          <Copy className="w-4 h-4 text-gray-400 group-hover:text-purple-600 transition-colors" onClick={() => {
                             navigator.clipboard.writeText(template.templateID);
                             toast.success("Copied to clipboard");
                           }} />
@@ -184,7 +184,7 @@ const LayoutPreview = () => {
                 })
               ) : (
                 <Card
-                  className="cursor-pointer hover:shadow-md transition-all border-blue-500 duration-200 group"
+                  className="cursor-pointer hover:shadow-md transition-all border-purple-500 duration-200 group"
                   onClick={() => {
                     trackEvent(MixpanelEvent.Navigation, { from: pathname, to: `/custom-template` });
                     router.push(`/custom-template`)
@@ -192,11 +192,11 @@ const LayoutPreview = () => {
                 >
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-lg font-semibold text-gray-900 capitalize group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-lg font-semibold text-gray-900 capitalize group-hover:text-purple-600 transition-colors">
                         Create Custom Template
                       </h3>
                       <div className="flex items-center gap-2">
-                        <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                        <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-purple-600 transition-colors" />
                       </div>
                     </div>
                     <p className="text-sm text-gray-600 mb-4">
@@ -231,14 +231,14 @@ const LayoutPreview = () => {
                   >
                     <div className="p-6">
                       <div className="flex items-center justify-between mb-3">
-                        <h3 className="text-lg font-semibold text-gray-900 capitalize group-hover:text-blue-600 transition-colors">
+                        <h3 className="text-lg font-semibold text-gray-900 capitalize group-hover:text-purple-600 transition-colors">
                           {displayName}
                         </h3>
                         <div className="flex items-center gap-2">
-                          <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                          <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">
                             {template.layouts.length}
                           </span>
-                          <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                          <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-purple-600 transition-colors" />
                         </div>
                       </div>
                       <p className="text-sm text-gray-600 mb-4">

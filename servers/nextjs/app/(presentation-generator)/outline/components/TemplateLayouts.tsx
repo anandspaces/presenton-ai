@@ -28,13 +28,13 @@ const TemplateLayouts: React.FC<TemplateLayoutsProps> = ({
         onSelectTemplate(template);
       }}
       className={`relative p-4 rounded-lg border cursor-pointer transition-all duration-200 ${selectedTemplate?.id === template.id
-        ? "border-blue-500 bg-blue-50 shadow-md"
+        ? "border-purple-500 bg-purple-50 shadow-md"
         : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
         }`}
     >
       {selectedTemplate?.id === template.id && (
         <div className="absolute top-3 right-3">
-          <CheckCircle className="w-5 h-5 text-blue-500" />
+          <CheckCircle className="w-5 h-5 text-purple-500" />
         </div>
       )}
 
@@ -74,7 +74,7 @@ const TemplateLayouts: React.FC<TemplateLayoutsProps> = ({
         <span
           className={`px-2 py-1 rounded text-xs ${template.ordered
             ? "bg-gray-100 text-gray-700"
-            : "bg-blue-100 text-blue-700"
+            : "bg-purple-100 text-purple-700"
             }`}
         >
           {template.ordered ? "Structured" : "Flexible"}

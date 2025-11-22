@@ -50,6 +50,7 @@ export class PresentationGenerationApi {
   }
  
    static async createPresentation({
+    user_id,
     content,
     n_slides,
     file_paths,
@@ -62,6 +63,7 @@ export class PresentationGenerationApi {
     web_search,
     
   }: {
+    user_id: string;
     content: string;
     n_slides: number | null;
     file_paths?: string[];
@@ -80,6 +82,7 @@ export class PresentationGenerationApi {
           method: "POST",
           headers: getHeader(),
           body: JSON.stringify({
+            user_id,
             content,
             n_slides,
             file_paths,

@@ -24,10 +24,10 @@ export interface PresentationResponse {
 
 export class DashboardApi {
 
-  static async getPresentations(): Promise<PresentationResponse[]> {
+  static async getPresentations(user_id:string): Promise<PresentationResponse[]> {
     try {
       const response = await fetch(
-        `/api/v1/ppt/presentation/all`,
+        `/api/v1/ppt/presentation/all/${user_id}`,
         {
           method: "GET",
         }

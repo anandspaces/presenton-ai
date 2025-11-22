@@ -7,6 +7,7 @@ import {
   Redo2 ,
   Undo2,
   RefreshCcw,
+  LayoutDashboard,
 } from "lucide-react";
 import React, { useState } from "react";
 import Wrapper from "@/components/Wrapper";
@@ -164,7 +165,8 @@ const Header = ({
           handleExportPdf();
         }}
         variant="ghost"
-        className={`pb-4 border-b rounded-none border-gray-300 w-full flex justify-start text-[#5146E5] ${mobile ? "bg-white py-6 border-none rounded-lg" : ""}`} >
+        className={`pb-4 border-b rounded-none border-gray-300 w-full flex justify-start text-[#7e22ce] ${mobile ? "bg-white py-6 border-none rounded-lg" : ""}`}
+      >
         <Image src={PDFIMAGE} alt="pdf export" width={30} height={30} />
         Export as PDF
       </Button>
@@ -174,7 +176,7 @@ const Header = ({
           handleExportPptx();
         }}
         variant="ghost"
-        className={`w-full flex justify-start text-[#5146E5] ${mobile ? "bg-white py-6" : ""}`}
+        className={`w-full flex justify-start text-[#7e22ce] ${mobile ? "bg-white py-6" : ""}`}
       >
         <Image src={PPTXIMAGE} alt="pptx export" width={30} height={30} />
         Export as PPTX
@@ -185,32 +187,37 @@ const Header = ({
   );
 
   const MenuItems = ({ mobile }: { mobile: boolean }) => (
-    <div className="flex flex-col lg:flex-row items-center gap-4">
-      {/* undo redo */}
-      <button onClick={handleReGenerate} disabled={isStreaming || !presentationData} className="text-white  disabled:opacity-50" >
-      
-        Re-Generate
+    <div className="flex flex-col lg:flex-row items-center gap-3">
+      {/* Re-Generate Button */}
+      <button
+        onClick={handleReGenerate}
+        disabled={isStreaming || !presentationData}
+        className="flex items-center gap-2 px-3 py-2 text-black hover:bg-primary/80 rounded-md transition-colors disabled:opacity-50 outline-none"
+      >
+        <RefreshCcw className="w-5 h-5" />
+        <span className="text-sm font-medium font-inter">Re-Generate</span>
       </button>
-      <div className="flex items-center gap-2 ">
+
+      {/* Undo/Redo */}
+      <div className="flex items-center gap-2">
         <ToolTip content="Undo">
-        <button disabled={!canUndo} className="text-white disabled:opacity-50" onClick={() => {
-          onUndo();
-        }}>
-
-          <Undo2 className="w-6 h-6 " />
-          
-        </button>
-          </ToolTip>
-          <ToolTip content="Redo">
-
-        <button disabled={!canRedo} className="text-white disabled:opacity-50" onClick={() => {
-          onRedo();
-        }}>
-          <Redo2 className="w-6 h-6 " />
-         
-        </button>
-          </ToolTip>
-
+          <button
+            disabled={!canUndo}
+            className="p-2 text-black hover:bg-primary/80 rounded-md transition-colors disabled:opacity-50"
+            onClick={onUndo}
+          >
+            <Undo2 className="w-5 h-5" />
+          </button>
+        </ToolTip>
+        <ToolTip content="Redo">
+          <button
+            disabled={!canRedo}
+            className="p-2 text-black hover:bg-primary/80 rounded-md transition-colors disabled:opacity-50"
+            onClick={onRedo}
+          >
+            <Redo2 className="w-5 h-5" />
+          </button>
+        </ToolTip>
       </div>
 
       {/* Present Button */}
@@ -221,25 +228,22 @@ const Header = ({
           router.push(to);
         }}
         variant="ghost"
-        className="border border-white font-bold text-white rounded-[32px] transition-all duration-300 group"
+        className="flex items-center gap-2 px-3 py-2 text-black hover:bg-primary/80 rounded-md transition-colors outline-none"
       >
-        <Play className="w-4 h-4 mr-1 stroke-white group-hover:stroke-black" />
-        Present
+        <Play className="w-5 h-5" />
+        <span className="text-sm font-medium font-inter">Present</span>
       </Button>
 
       {/* Desktop Export Button with Popover */}
-
-      <div style={{
-        zIndex: 100
-      }} className="hidden lg:block relative ">
-        <Popover open={open} onOpenChange={setOpen} >
+      <div style={{ zIndex: 100 }} className="hidden lg:block relative">
+        <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
-            <Button className={`border py-5 text-[#5146E5] font-bold rounded-[32px] transition-all duration-500 hover:border hover:bg-[#5146E5] hover:text-white w-full ${mobile ? "" : "bg-white"}`}>
+            <Button className={`border py-5 text-[#7e22ce] font-bold rounded-[32px] transition-all duration-500 hover:border hover:bg-[#7e22ce] hover:text-white w-full ${mobile ? "" : "bg-white"}`}>
               <SquareArrowOutUpRight className="w-4 h-4 mr-1" />
               Export
             </Button>
           </PopoverTrigger>
-          <PopoverContent align="end" className="w-[250px] space-y-2 py-3 px-2 ">
+          <PopoverContent align="end" className="w-[250px] space-y-2 py-3 px-2">
             <ExportOptions mobile={false} />
           </PopoverContent>
         </Popover>
@@ -249,6 +253,18 @@ const Header = ({
       <div className="lg:hidden flex flex-col w-full">
         <ExportOptions mobile={true} />
       </div>
+
+      {/* Dashboard Link */}
+      <Link
+        href="/dashboard"
+        prefetch={false}
+        className="flex items-center gap-2 px-3 py-2 text-black hover:bg-primary/80 rounded-md transition-colors outline-none"
+        role="menuitem"
+        onClick={() => trackEvent(MixpanelEvent.Navigation, { from: pathname, to: "/dashboard" })}
+      >
+        <LayoutDashboard className="w-5 h-5" />
+        <span className="text-sm font-medium font-inter">Dashboard</span>
+      </Link>
     </div>
   );
 
@@ -260,35 +276,16 @@ const Header = ({
         showProgress={true}
         duration={40}
       />
-      <div
-
-        className="bg-[#5146E5] w-full shadow-lg sticky top-0 ">
-
+      <div className="bg-transparent w-full shadow-lg sticky top-0 z-50 backdrop-blur-md">
         <Announcement />
-        <Wrapper className="flex items-center justify-between py-1">
-          <Link href="/dashboard" className="min-w-[162px]">
-            <img
-              className="h-16"
-              src="/logo-white.png"
-              alt="Presentation logo"
-            />
-          </Link>
-
-          {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-4 2xl:gap-6">
-            {isStreaming && (
-              <Loader2 className="animate-spin text-white font-bold w-6 h-6" />
-            )}
-
-
-            <MenuItems mobile={false} />
-            <HeaderNav />
-          </div>
-
-          {/* Mobile Menu */}
-          <div className="lg:hidden flex items-center gap-4">
-            <HeaderNav />
-
+        <Wrapper>
+          <div className="flex items-center justify-around py-4">
+            <div className="flex items-center gap-3">
+              {isStreaming && (
+                <Loader2 className="animate-spin text-black font-bold w-6 h-6" />
+              )}
+              <MenuItems mobile={false} />
+            </div>
           </div>
         </Wrapper>
 

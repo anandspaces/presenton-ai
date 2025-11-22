@@ -112,33 +112,35 @@ const SupportingDoc = ({ files, onFilesChange }: SupportingDocProps) => {
 
 
     return (
-        <div className="w-full">
-            <h2 className="text-[#444] font-instrument_sans pt-4 text-lg mb-4">Supporting Documents</h2>
+        <div className="w-full h-full flex flex-col">
             <div
                 onClick={() => fileInputRef.current?.click()}
                 className={cn(
                     "w-full border-2 border-dashed border-gray-400 rounded-lg",
                     "transition-all duration-300 ease-in-out bg-white",
-                    "min-h-[300px] flex flex-col mb-8",
+                    "flex flex-col h-full cursor-pointer",
                     isDragging && "border-purple-400 bg-purple-50"
                 )}
                 onDragOver={(e) => handleDragEvents(e, true)}
                 onDragLeave={(e) => handleDragEvents(e, false)}
                 onDrop={handleDrop}
             >
-                <div className="flex-1 flex flex-col items-center justify-center p-6">
+                <div className={cn(
+                    "flex flex-col items-center justify-center p-1",
+                    files.length === 0 ? "flex-1" : "flex-shrink-0"
+                )}>
                     <Upload className={cn(
-                        "w-12 h-12 text-gray-400 mb-4",
+                        "w-6 h-6 text-gray-400 mb-4",
                         isDragging && "text-purple-400"
                     )} />
 
-                    <p className="text-gray-600 text-center mb-2">
+                    <p className="text-xs text-gray-600 text-center mb-2">
                         {isDragging
                             ? 'Drop your file here'
                             : 'Drag and drop your file here or click below button'
                         }
                     </p>
-                    <p className="text-gray-400 text-sm text-center mb-4">
+                    <p className="text-xs text-gray-400 text-center mb-4">
                         Supports PDFs, Text files, PPTX, DOCX
                     </p>
 
@@ -160,21 +162,21 @@ const SupportingDoc = ({ files, onFilesChange }: SupportingDocProps) => {
                         }}
                         className="px-6 py-2 bg-purple-600 text-white rounded-full
                             hover:bg-purple-700 transition-colors duration-200
-                            font-medium text-sm"
+                            font-medium text-xs"
                     >
                         Choose Files
                     </button>
                 </div>
 
                 {files.length > 0 && (
-                    <div className="border-t border-gray-200 bg-gray-50 rounded-b-lg">
+                    <div className="border-t border-gray-200 bg-gray-50 rounded-b-lg flex-1 overflow-auto">
                         <div className="p-4">
                             <div className="flex items-center justify-between mb-3">
                                 <h3 className="text-sm font-medium text-gray-700">
                                     Selected Files ({files.length})
                                 </h3>
                             </div>
-                            <div data-testid="file-list" className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                            <div data-testid="file-list" className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {filesWithIds.map((file) => {
 
                                     return (

@@ -19,7 +19,7 @@ export const SlideActions: React.FC<SlideActionsProps> = ({
     <div className="flex items-center w-full justify-between gap-2">
       <div>
         {slide.processing ? (
-          <Loader2 className="w-6 h-6 text-blue-600 animate-spin" />
+          <Loader2 className="w-6 h-6 text-purple-600 animate-spin" />
         ) : slide.processed ? (
           <CheckCircle className="w-6 h-6 text-green-600" />
         ) : slide.error ? (
@@ -38,7 +38,7 @@ export const SlideActions: React.FC<SlideActionsProps> = ({
                   <button
                     onClick={onEditClick}
                     disabled={isProcessing || !slide.processed}
-                    className={`px-6 py-2 flex gap-2 text-sm items-center group-hover:scale-105 rounded-lg bg-[#5141e5] hover:shadow-md transition-all duration-300 cursor-pointer shadow-md ${
+                    className={`px-6 py-2 flex gap-2 text-sm items-center group-hover:scale-105 rounded-lg bg-[#7e22ce] hover:shadow-md transition-all duration-300 cursor-pointer shadow-md ${
                       isProcessing || !slide.processed
                         ? "opacity-50 cursor-not-allowed"
                         : ""
@@ -72,7 +72,7 @@ export const SlideActions: React.FC<SlideActionsProps> = ({
               <button
                 onClick={onRetry}
                 disabled={isProcessing || !slide.processed}
-                className={`px-6 py-2 flex gap-2 text-sm items-center group-hover:scale-105 rounded-lg bg-[#5141e5] hover:shadow-md transition-all duration-300 cursor-pointer shadow-md ${
+                className={`px-6 py-2 flex gap-2 text-sm items-center group-hover:scale-105 rounded-lg bg-[#7e22ce] hover:shadow-md transition-all duration-300 cursor-pointer shadow-md ${
                   isProcessing || !slide.processed
                     ? "opacity-50 cursor-not-allowed"
                     : ""

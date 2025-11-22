@@ -16,7 +16,7 @@ import { FileUploadSection } from "./components/FileUploadSection";
 import { SaveLayoutButton } from "./components/SaveLayoutButton";
 import { SaveLayoutModal } from "./components/SaveLayoutModal";
 import EachSlide from "./components/EachSlide/NewEachSlide";
-import { APIKeyWarning } from "./components/APIKeyWarning";
+// import { APIKeyWarning } from "./components/APIKeyWarning";
 import { trackEvent, MixpanelEvent } from "@/utils/mixpanel";
 
 const CustomTemplatePage = () => {
@@ -25,7 +25,7 @@ const CustomTemplatePage = () => {
   const { refetch } = useLayout();
   
   // Custom hooks for different concerns
-  const { hasRequiredKey, isRequiredKeyLoading } = useAPIKeyCheck();
+  // const { hasRequiredKey, isRequiredKeyLoading } = useAPIKeyCheck();
   const { selectedFile, handleFileSelect, removeFile } = useFileUpload();
   const { slides, setSlides, completedSlides } = useCustomLayout();
   const { fontsData, UploadedFonts, uploadFont, removeFont, getAllUnsupportedFonts, setFontsData } = useFontManagement();
@@ -83,16 +83,16 @@ const CustomTemplatePage = () => {
   }, []);
 
   // Loading state
-  if (isRequiredKeyLoading) {
-    return <LoadingSpinner message="Checking API Key..." />;
-  }
+  // if (isRequiredKeyLoading) {
+  //   return <LoadingSpinner message="Checking API Key..." />;
+  // }
 
   // Anthropic key warning
-  if (!hasRequiredKey) {
-    return <APIKeyWarning />;
+  // if (!hasRequiredKey) {
+  //   return <APIKeyWarning />;
  
 
-  }
+  // }
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <Header />

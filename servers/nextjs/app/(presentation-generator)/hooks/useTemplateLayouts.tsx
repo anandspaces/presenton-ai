@@ -33,7 +33,7 @@ export const useTemplateLayouts = () => {
       if (loading) {
         return (
           <div className="flex flex-col items-center justify-center aspect-video h-full bg-gray-100 rounded-lg">
-            <Loader2 className="w-8 h-8 animate-spin text-blue-800" />
+            <Loader2 className="w-8 h-8 animate-spin text-purple-800" />
           </div>
         );
       }

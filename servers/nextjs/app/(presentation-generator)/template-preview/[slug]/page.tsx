@@ -254,7 +254,7 @@ const GroupLayoutPreview = () => {
                         <span className="text-sm text-gray-500 font-mono">
                           {fileName}
                         </span>
-                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                           {layoutGroup[0].templateID}
                         </span>
                       </div>
@@ -267,7 +267,7 @@ const GroupLayoutPreview = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          className="flex items-center gap-2 bg-blue-50 border border-blue-400 text-blue-700"
+                          className="flex items-center gap-2 bg-purple-50 border border-purple-400 text-purple-700"
                           onClick={() => {
                             trackEvent(MixpanelEvent.TemplatePreview_Open_Editor_Button_Clicked, { pathname });
                             openEditor(fileName);

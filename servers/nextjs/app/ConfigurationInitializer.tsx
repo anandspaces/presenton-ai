@@ -36,6 +36,7 @@ export function ConfigurationInitializer({ children }: { children: React.ReactNo
     dispatch(setCanChangeKeys(canChangeKeys));
 
     if (canChangeKeys) {
+      // Frontend configuration is enabled - load user config from file
       const response = await fetch('/api/user-config');
       const llmConfig = await response.json();
       if (!llmConfig.LLM) {
@@ -74,6 +75,9 @@ export function ConfigurationInitializer({ children }: { children: React.ReactNo
         setIsLoading(false);
       }
     } else {
+      // Backend configuration mode - all config is managed via backend .env
+      // No need to check LLM config validity or model availability
+      // Backend will handle all validation at startup
       if (route === '/') {
         router.push('/upload');
         setLoadingToFalseAfterNavigatingTo('/upload');
@@ -112,32 +116,32 @@ export function ConfigurationInitializer({ children }: { children: React.ReactNo
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8 text-center">
             {/* Logo/Branding */}
             <div className="mb-6">
-              <img
+              {/* <img
                 src="/Logo.png"
-                alt="PresentOn"
+                alt="Logo"
                 className="h-12 mx-auto mb-4 opacity-90"
-              />
-              <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full"></div>
+              /> */}
+              {/* <div className="w-16 h-1 bg-gradient-to-r from-purple-200 to-purple-600 mx-auto rounded-full"></div> */}
             </div>
 
             {/* Loading Text */}
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <h3 className="text-lg font-semibold text-gray-800 font-inter">
                 Initializing Application
               </h3>
               <p className="text-sm text-gray-600 font-inter">
                 Loading configuration and checking model availability...
               </p>
-            </div>
+            </div> */}
 
             {/* Progress Indicator */}
-            <div className="mt-6">
+            {/* <div className="mt-6"> */}
               <div className="flex space-x-1 justify-center">
-                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
                 <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
               </div>
-            </div>
+            {/* </div> */}
           </div>
         </div>
       </div>

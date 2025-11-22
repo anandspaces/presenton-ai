@@ -102,6 +102,10 @@ async function getBrowserAndPage(id: string): Promise<[Browser, Page]> {
     waitUntil: "networkidle0",
     timeout: 300000,
   });
+  // await page.goto(`http://localhost:3000/pdf-maker?id=${id}`, {
+  //   waitUntil: "networkidle0",
+  //   timeout: 300000,
+  // });
   return [browser, page];
 }
 
